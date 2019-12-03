@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.core.mail import send_mail
 from django.db import models
 from django.utils import timezone
-from django.utils.encoding import python_2_unicode_compatible
+import six
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -54,6 +54,9 @@ class AbstractEmailUser(AbstractBaseUser, PermissionsMixin):
         """Sends an email to this User."""
 
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+# For backwards compatibility. (originally in Django, then added to six 1.9)
+python_2_unicode_compatible = six.python_2_unicode_compatible
 
 @python_2_unicode_compatible
 class AbstractNamedUser(AbstractEmailUser):
